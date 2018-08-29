@@ -31,5 +31,11 @@ namespace DatingApp.api.Controllers
 
             return StatusCode(201);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLoginDto userDto)
+        {
+            
+        }
     }
 }
