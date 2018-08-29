@@ -1,0 +1,20 @@
+# Visual Studio Code
+Extensions :
+ * C# for Visual Studio Code (powered by OmniSharp) (Microsoft)
+ * C# Extensions (jchannon)
+ * NuGet Package Manager (jmrog)
+ * Angular v6 Snippets (John Papa)
+ * Angular Files (Alexander Ivanichev)
+ * Angular Language Service (Angular)
+ * angular2-switcher (Infinity1207)
+ * Auto Rename Tag (Jun Han)
+ * Bracket Pair Colorizer (CoenraadS)
+ * Debugger for Chrome (Microsoft)
+ * Material Icon Theme (Philipp Kief)
+ * Prettier - Code formatter (Esben Petersen)
+ * TSLint (egamma)
+
+# Nodejs 8.11.4 LTS
+# Postman
+# DB Browser for SQLite
+# .NET SDK Core 2.1.401
