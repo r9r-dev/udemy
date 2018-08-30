@@ -20,14 +20,32 @@ Extensions :
 ## DB Browser for SQLite
 ## .NET SDK Core 2.1.401
 
-# Commands
+# Useful Commands
 ## dotnet
 ### Entity Framework
+```
 dotnet ef migrations Add [Name]
 dotnet ef database update
+```
+
 ### Start
+```
 dotnet run
 dotnet watch run
+```
+
+### Create
+```
+dotnet new webapi
+```
 
 ## angular
+### Start
+```
 ng serve
+```
+
+### Create
+```
+ng new [name]
+```
