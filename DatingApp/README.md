@@ -49,3 +49,11 @@ ng serve
 ```
 ng new [name]
 ```
+
+### Install third-party modules
+```
+npm install alertifyjs --save
+npm install @auth0/angular-jwt@2.0.0
+npm install bootstrap
+npm install ngx-bootstrap@3.0.1 --save
+```
