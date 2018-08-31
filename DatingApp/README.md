@@ -48,6 +48,7 @@ ng serve
 ### Create
 ```
 ng new [name]
+src\app\_guards>ng g guard auth --spec=false
 ```
 
 ### Install third-party modules
