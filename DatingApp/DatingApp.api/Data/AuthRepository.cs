@@ -26,7 +26,7 @@ namespace DatingApp.api.Data
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using(var hmac = new HMACSHA512(passwordSalt))
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
                 if (computedHash.Length != passwordHash.Length) return false;
@@ -52,7 +52,7 @@ namespace DatingApp.api.Data
 
         private (byte[] PasswordHash, byte[] PasswordSalt) CreatePasswordHash(string password)
         {
-            using(var hmac = new HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 var salt = hmac.Key;
                 var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
