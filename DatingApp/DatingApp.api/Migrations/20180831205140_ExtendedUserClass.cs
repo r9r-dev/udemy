@@ -45,7 +45,7 @@ namespace DatingApp.api.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "KownAs",
+                name: "KnownAs",
                 table: "Users",
                 nullable: true);
 
@@ -70,23 +70,23 @@ namespace DatingApp.api.Migrations
                     Description = table.Column<string>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false),
                     IsMain = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    OwnerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Photos_Users_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photos_UserId",
+                name: "IX_Photos_OwnerId",
                 table: "Photos",
-                column: "UserId");
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -123,7 +123,7 @@ namespace DatingApp.api.Migrations
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "KownAs",
+                name: "KnownAs",
                 table: "Users");
 
             migrationBuilder.DropColumn(

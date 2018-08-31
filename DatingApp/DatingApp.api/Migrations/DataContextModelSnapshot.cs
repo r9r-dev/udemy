@@ -27,13 +27,13 @@ namespace DatingApp.api.Migrations
 
                     b.Property<bool>("IsMain");
 
-                    b.Property<string>("Url");
+                    b.Property<int>("OwnerId");
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Photos");
                 });
@@ -57,7 +57,7 @@ namespace DatingApp.api.Migrations
 
                     b.Property<string>("Introduction");
 
-                    b.Property<string>("KownAs");
+                    b.Property<string>("KnownAs");
 
                     b.Property<DateTime>("LastActive");
 
@@ -88,9 +88,10 @@ namespace DatingApp.api.Migrations
 
             modelBuilder.Entity("DatingApp.api.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.api.Models.User")
+                    b.HasOne("DatingApp.api.Models.User", "Owner")
                         .WithMany("Photos")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
