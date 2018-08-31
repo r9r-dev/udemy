@@ -53,6 +53,7 @@ src\app\_guards>ng g guard auth --spec=false
 
 ### Install third-party modules
 ```
+npm install
 npm install alertifyjs --save
 npm install @auth0/angular-jwt@2.0.0
 npm install bootstrap
