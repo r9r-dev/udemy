@@ -62,6 +62,7 @@ namespace DatingApp.api
         {
             if (env.IsDevelopment())
             {
+                // seeder.SeedUsers();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -80,8 +81,7 @@ namespace DatingApp.api
                 // app.UseHsts();
             }
 
-            // app.UseHttpsRedirection();
-            // seeder.SeedUsers();
+            // app.UseHttpsRedirection();            
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();
