@@ -1,12 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule,
+  TabsModule,
+  BsDatepickerModule
+} from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -30,6 +37,8 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
+registerLocaleData(localeFr, 'fr');
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -46,7 +55,8 @@ export function tokenGetter() {
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -68,6 +78,7 @@ export function tokenGetter() {
     })
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'fr' },
     AuthService,
     ErrorInterceptorProvider,
     AlertifyService,
