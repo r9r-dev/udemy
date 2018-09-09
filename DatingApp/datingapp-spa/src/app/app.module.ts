@@ -38,6 +38,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { ListsResolver } from './_resolvers/lists.resolver';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -91,7 +92,8 @@ export function tokenGetter() {
     MemberDetailResolver,
     MemberListResolver,
     MemberEditResolver,
-    PreventUsavedChanges
+    PreventUsavedChanges,
+    ListsResolver
   ],
   bootstrap: [AppComponent]
 })
