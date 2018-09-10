@@ -48,21 +48,36 @@ namespace DatingApp.api.Controllers
                 return Unauthorized();
 
             messageParams.UserId = userId;
-            
+
             var messagesFromRepo = await _repo.GetMessagesForUser(messageParams);
 
             var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
-            Response.AddPagination(messagesFromRepo.CurrentPage, messagesFromRepo.PageSize, 
+            Response.AddPagination(messagesFromRepo.CurrentPage, messagesFromRepo.PageSize,
                 messagesFromRepo.TotalCount, messagesFromRepo.TotalPages);
 
             return Ok(messages);
         }
 
+        [HttpGet("thread/{recipientId}")]
+        public async Task<IActionResult> GetMessageThread(int userId, int recipientId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var messageFromRepo = await _repo.GetMessagesThread(userId, recipientId);
+
+            var messageThread = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo);
+
+            return Ok(messageThread);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, MessageForCreationDto msgDto)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            var sender = await _repo.GetUser(userId);
+            
+            if (sender.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
             msgDto.SenderId = userId;
@@ -74,12 +89,11 @@ namespace DatingApp.api.Controllers
 
             var message = _mapper.Map<Message>(msgDto);
 
-            _repo.Add(message);
-
-            var messageToReturn = _mapper.Map<MessageForCreationDto>(message);
+            _repo.Add(message);            
 
             if (await _repo.SaveAll())
             {
+                var messageToReturn = _mapper.Map<MessageToReturnDto>(message);
                 return CreatedAtRoute("GetMessage", new { id = message.Id }, messageToReturn);
             }
 
