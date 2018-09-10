@@ -127,13 +127,13 @@ namespace DatingApp.api.Data
             switch (msgParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == msgParams.UserId);
+                    messages = messages.Where(u => u.RecipientId == msgParams.UserId && u.RecipientDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == msgParams.UserId);
+                    messages = messages.Where(u => u.SenderId == msgParams.UserId && u.SenderDeleted == false);
                     break;
                 default: // Unread
-                    messages = messages.Where(u => u.RecipientId == msgParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.RecipientId == msgParams.UserId && u.IsRead == false && u.RecipientDeleted == false);
                     break;
             }
 
@@ -142,19 +142,17 @@ namespace DatingApp.api.Data
             return await PagedList<Message>.CreateAsync(messages, msgParams.PageNumber, msgParams.PageSize);
         }
 
-        public async Task<IEnumerable<Message>> GetMessagesThread(int userId, int recipientId)
+        public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
         {
             var messages = await _db.Messages
                                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-                                .Where(m => m.RecipientId == userId && m.SenderId == recipientId
-                                    || m.RecipientId == recipientId && m.SenderId == userId)
+                                .Where(m => m.RecipientId == userId && m.RecipientDeleted == false && m.SenderId == recipientId
+                                    || m.RecipientId == recipientId && m.SenderDeleted == false && m.SenderId == userId)
                                 .OrderByDescending(m => m.MessageSent)
                                 .ToListAsync();
 
             return messages;
-            
-
         }
     }
 }
