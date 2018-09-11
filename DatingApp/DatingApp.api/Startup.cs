@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace DatingApp.api
 {
@@ -40,6 +41,10 @@ namespace DatingApp.api
                                 .AddJsonOptions(opt => {
                                     opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                                 });
+            services.AddSwaggerGen(c => 
+            {
+                c.SwaggerDoc("v1", new Info { Title = "DatingApp API", Version = "v1" });
+            });
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
@@ -83,10 +88,26 @@ namespace DatingApp.api
                 // app.UseHsts();
             }
 
+            // Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DatingApp API v1");
+            });
+
             // app.UseHttpsRedirection();            
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes => 
+            {
+                routes.MapSpaFallbackRoute
+                (
+                    name: "spa-fallback",
+                    defaults: new { controller = "Fallback", action = "Index"}
+                );
+            });
         }
     }
 }
