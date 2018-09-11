@@ -28,7 +28,19 @@ namespace DatingApp.api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Register a user
+        /// </summary>
+        /// <remarks>
+        /// Anonymous request
+        /// </remarks>
+        /// <response code="201">Returns the newly created user</response>
+        /// <response code="400">If username already exists</response>
+        /// <response code="500">For any unhandled exception</response>
         [HttpPost("register")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> Register(UserForRegisterDto userDto)
         {
             userDto.Username = userDto.Username.ToLower();
@@ -43,7 +55,19 @@ namespace DatingApp.api.Controllers
             return CreatedAtRoute("GetUser", new {controller = "Users", id = createdUser.Id}, userToReturn);
         }
 
-        [HttpPost("login")]
+        /// <summary>
+        /// Login a user
+        /// </summary>
+        /// <remarks>
+        /// Anonymous request
+        /// </remarks>
+        /// <response code="200">Returns the Jwt Token and some user informations</response>
+        /// <response code="401">For any reason (username does not exist or password mismatch)</response>
+        /// <response code="500">For any unhandled exception</response>
+        [HttpPost("login")]        
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> Login(UserForLoginDto userDto)
         {
             var userFromRepo = await _repo.Login(userDto.Username.ToLower(), userDto.Password);

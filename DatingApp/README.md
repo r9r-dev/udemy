@@ -14,6 +14,7 @@ Extensions :
  * Material Icon Theme (Philipp Kief)
  * Prettier - Code formatter (Esben Petersen)
  * TSLint (egamma)
+ * C# XML Documentation Comments(Keisuke Kato)
 
 ## Nodejs 8.11.4 LTS
 ## Postman
