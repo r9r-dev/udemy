@@ -15,7 +15,7 @@ namespace DatingApp.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public partial class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
@@ -41,7 +41,7 @@ namespace DatingApp.api.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Register(UserForRegisterDto userDto)
+        public async Task<ActionResult<UserForDetailedDto>> Register(UserForRegisterDto userDto)
         {
             userDto.Username = userDto.Username.ToLower();
             if (await _repo.UserExists(userDto.Username)) return BadRequest("Username already exists");
@@ -68,7 +68,7 @@ namespace DatingApp.api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Login(UserForLoginDto userDto)
+        public async Task<ActionResult<LoginResponse>> Login(UserForLoginDto userDto)
         {
             var userFromRepo = await _repo.Login(userDto.Username.ToLower(), userDto.Password);
             if (userFromRepo == null) return Unauthorized();
@@ -96,10 +96,10 @@ namespace DatingApp.api.Controllers
 
             var user = _mapper.Map<UserForListDto>(userFromRepo);
 
-            return Ok(new
+            return Ok(new LoginResponse
             {
-                token = tokenHandler.WriteToken(token),
-                user
+                Token = tokenHandler.WriteToken(token),
+                User = user
             });
         }
     }

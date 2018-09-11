@@ -45,7 +45,7 @@ namespace DatingApp.api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
+        public async Task<ActionResult<IEnumerable<UserForListDto>>> GetUsers([FromQuery] UserParams userParams)
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userFromRepo = await _repo.GetUser(currentUserId);
@@ -77,7 +77,7 @@ namespace DatingApp.api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<ActionResult<UserForDetailedDto>> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
