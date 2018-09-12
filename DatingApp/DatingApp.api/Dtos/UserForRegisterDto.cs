@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace DatingApp.api.Dtos
 {
@@ -35,6 +36,25 @@ namespace DatingApp.api.Dtos
         {
             Created = DateTime.Now;
             LastActive = DateTime.Now;
+        }
+    }
+
+    public class UserForRegisterDtoExample : IExamplesProvider<UserForRegisterDto>
+    {
+        public UserForRegisterDto GetExamples()
+        {
+            return new UserForRegisterDto
+            {
+                Username = "bob",
+                Password = "password",
+                Gender = "male",
+                KnownAs = "Bob Lennon",
+                DateOfBirth = new DateTime(1982, 3, 18),
+                City = "London",
+                Country = "UK",
+                Created = DateTime.Now,
+                LastActive = DateTime.Now
+            };
         }
     }
 }

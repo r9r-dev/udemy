@@ -1,7 +1,10 @@
 using System;
+using DatingApp.api.Dtos;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace DatingApp.api.Helpers
 {
@@ -28,6 +31,14 @@ namespace DatingApp.api.Helpers
             var age = DateTime.Today.Year - dateTime.Year;
             if (dateTime.AddYears(age) > DateTime.Today) age--;
             return age;
+        }
+
+        public static IServiceCollection AddExamples(this IServiceCollection services)
+        {
+            // todo : charger par réflexion            
+            services.AddSwaggerExamplesFromAssemblyOf<UserForRegisterDtoExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<UserForDetailedDto>();
+            return services;
         }
     }
 }

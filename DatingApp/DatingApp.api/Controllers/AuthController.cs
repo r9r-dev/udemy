@@ -10,6 +10,7 @@ using DatingApp.api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace DatingApp.api.Controllers
 {
@@ -38,10 +39,11 @@ namespace DatingApp.api.Controllers
         /// <response code="400">If username already exists</response>
         /// <response code="500">For any unhandled exception</response>
         [HttpPost("register")]
+        [Produces("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<UserForDetailedDto>> Register(UserForRegisterDto userDto)
+        public async Task<ActionResult<UserForDetailedDto>> Register([FromBody] UserForRegisterDto userDto)
         {
             userDto.Username = userDto.Username.ToLower();
             if (await _repo.UserExists(userDto.Username)) return BadRequest("Username already exists");
@@ -62,13 +64,11 @@ namespace DatingApp.api.Controllers
         /// Anonymous request
         /// </remarks>
         /// <response code="200">Returns the Jwt Token and some user informations</response>
-        /// <response code="401">For any reason (username does not exist or password mismatch)</response>
         /// <response code="500">For any unhandled exception</response>
         [HttpPost("login")]        
         [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<LoginResponse>> Login(UserForLoginDto userDto)
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] UserForLoginDto userDto)
         {
             var userFromRepo = await _repo.Login(userDto.Username.ToLower(), userDto.Password);
             if (userFromRepo == null) return Unauthorized();

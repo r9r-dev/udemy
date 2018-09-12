@@ -39,11 +39,9 @@ namespace DatingApp.api.Controllers
         /// <response code="200">Returns requested users and pagination informations (in header Pagination)
         /// Example : {"currentPage":1,"itemsPerPage":10,"totalItems":6,"totalPages":1}
         /// </response>
-        /// <response code="401">If Jwt Token is wrong or missing</response>
         /// <response code="500">For any unhandled exception</response>
-        [HttpPost("login")]
+        [HttpGet]
         [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<ActionResult<IEnumerable<UserForListDto>>> GetUsers([FromQuery] UserParams userParams)
         {
@@ -71,11 +69,9 @@ namespace DatingApp.api.Controllers
         /// Authorization: Bearer *token*
         /// </remarks>
         /// <response code="200">Returns requested user</response>
-        /// <response code="401">If Jwt Token is wrong or missing</response>
         /// <response code="500">For any unhandled exception</response>
         [HttpGet("{id}", Name = "GetUser")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<ActionResult<UserForDetailedDto>> GetUser(int id)
         {
@@ -94,11 +90,9 @@ namespace DatingApp.api.Controllers
         /// Authorization: Bearer *token*
         /// </remarks>
         /// <response code="204">If user has been successfully updated</response>
-        /// <response code="401">If Jwt Token is wrong or missing or if trying to update another user</response>
         /// <response code="500">If failed on save or for any unhandled exception</response>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        [ProducesResponseType(401)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userDto)
         {
