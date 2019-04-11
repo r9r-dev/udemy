@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "ms-vscode.csharp",
+        "jchannon.csharpextensions",
+        "jmrog.vscode-nuget-package-manager",
+        "johnpapa.angular2",
+        "alexiv.vscode-angular2-files",
+        "angular.ng-template",
+        "infinity1207.angular2-switcher",
+        "formulahendry.auto-rename-tag",
+        "coenraads.bracket-pair-colorizer",
+        "msjsdiag.debugger-for-chrome",
+        "pkief.material-icon-theme",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "k--kato.docomment"
+    ]
+}
