@@ -1,6 +1,8 @@
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/components/rounded_button.dart';
+import 'package:flash_chat/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -8,6 +10,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +35,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                this.email = value;
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'Votre email'),
             ),
@@ -38,8 +46,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                this.password = value;
               },
               decoration: kTextFieldDecoration.copyWith(hintText: 'Votre mot de passe'),
             ),
@@ -49,8 +59,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedButton(
               text: "S'enregistrer",
               color: Colors.blueAccent,
-              onPressed: () {
-                //Implement registration functionality.
+              onPressed: () async {
+                try {
+                  final newUser = await _auth.createUserWithEmailAndPassword(email: this.email, password: this.password);
+                  if (newUser != null) {
+                    Navigator.pushNamed(context, Screens.chat);
+                  }
+                } catch (e) {
+                  print(e);
+                }
               },
             ),
           ],
